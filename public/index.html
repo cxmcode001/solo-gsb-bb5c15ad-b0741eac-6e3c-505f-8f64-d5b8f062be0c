@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>单张纸直线裁切试排</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>单张纸直线裁切试排</h1>
+    <p class="subtitle">输入纸张、刀缝与成品规格，自动生成每次将区域一分为二的直线裁切方案（成品可旋转，刀缝计入废料）</p>
+  </header>
+
+  <main class="layout">
+    <!-- 输入区 -->
+    <section class="panel input-panel">
+      <h2>排样参数</h2>
+
+      <div class="grid3">
+        <label>纸张宽度 (mm)
+          <input type="number" id="sheetWidth" min="1" step="1" value="889" />
+        </label>
+        <label>纸张高度 (mm)
+          <input type="number" id="sheetHeight" min="1" step="1" value="1194" />
+        </label>
+        <label>刀缝宽度 (mm)
+          <input type="number" id="kerf" min="0" step="0.5" value="3" />
+        </label>
+      </div>
+
+      <h2 class="products-title">
+        成品清单
+        <button type="button" id="addProduct" class="btn btn-small">＋ 添加成品</button>
+      </h2>
+      <div id="productRows"></div>
+
+      <div class="actions">
+        <button type="button" id="runBtn" class="btn btn-primary">开始试排</button>
+        <button type="button" id="clearBtn" class="btn">清空成品</button>
+      </div>
+      <div id="errorBox" class="error" hidden></div>
+    </section>
+
+    <!-- 结果区 -->
+    <section class="panel result-panel">
+      <div class="stats-row" id="statsRow">
+        <div class="stat">
+          <div class="stat-label">已排面积占比</div>
+          <div class="stat-value" id="statRatio">—</div>
+          <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">已排 / 总数</div>
+          <div class="stat-value" id="statPlaced">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">切割刀数</div>
+          <div class="stat-value" id="statCuts">—</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">已排面积</div>
+          <div class="stat-value" id="statArea">—</div>
+        </div>
+      </div>
+
+      <div id="overflowBox" class="overflow" hidden></div>
+
+      <div id="svgWrap" class="svg-wrap">
+        <div class="placeholder">填写左侧参数后点击「开始试排」</div>
+      </div>
+
+      <div class="legend" id="legend" hidden>
+        <span><i class="swatch swatch-cut"></i> 红色：切割线（数字为下刀顺序，刀缝宽度已计入）</span>
+        <span><i class="swatch swatch-rot"></i> ↻ 角标：该成品旋转 90° 摆放</span>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

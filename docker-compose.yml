@@ -1,0 +1,11 @@
+services:
+  sheet-imposition:
+    build: .
+    image: sheet-imposition:latest
+    container_name: sheet-imposition
+    ports:
+      - "${HOST_PORT:-3000}:3000"
+    environment:
+      # 容器内监听端口（一般无需修改）
+      PORT: "3000"
+    restart: unless-stopped
